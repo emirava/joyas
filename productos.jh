@@ -1,0 +1,68 @@
+entity Cliente {
+	nombre String required,
+    apellido String required,
+    asociacion String,
+    celular Integer
+}
+
+entity Venta {
+	fechaInicio Instant required,
+    fechaFin Instant,
+    estado EstadoVenta required
+}
+
+entity DetalleVenta {
+}
+
+entity Producto {
+	id String required,
+    precio Float required,
+    costo Float required,
+    cantidad Integer
+}
+
+entity TipoProducto{
+	codigo String required,
+    descripcion String
+}
+
+entity Trabajo {
+	fechaSugerida Instant required,
+    tipo TipoTrabajo required
+}
+
+entity Pago {
+	fechaPago Instance required,
+    descripcion String,
+    cantidad Float required,
+    medioPago MedioPago required
+}
+
+enum EstadoVenta {
+	INICIO, ENTREGADO, FINALIZADO, REGALO, SORTEO
+}
+
+enum TipoTrabajo {
+	PEDIDO, ARREGLO
+}
+
+enum MedioPago {
+	EFECTIVO, TARJETA, TRANSFERENCIA
+}
+
+relationship OneToMany {
+	Cliente{ventas} to Venta,
+    Venta{detalles} to DetalleVenta,
+    Venta{trabajos} to Trabajo,
+    Venta{pagos} to Pago
+}
+
+relationship ManyToOne {
+	DetalleVenta{producto} to Producto,
+    TipoProducto{tipo} to Producto
+}
+
+dto * with mapstruct
+
+// Set an angular suffix
+angularSuffix * with mySuffix
